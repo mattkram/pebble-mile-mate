@@ -1,0 +1,18 @@
+{
+  "uuid": "dd816e56-8118-40e1-be13-c8a1e527fb18",
+  "shortName": "mileage-recorder",
+  "longName": "mileage-recorder",
+  "companyName": "Kramerica Industries",
+  "versionLabel": "0.1",
+  "sdkVersion": "3",
+  "targetPlatforms": ["chalk"],
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
