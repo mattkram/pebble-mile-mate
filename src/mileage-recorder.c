@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "helper_functions.h"
 #include "windows/odometer_window.h"
 #include "windows/pin_window.h"
 
@@ -14,17 +15,8 @@ static Window *s_main_window;
 static MenuLayer *s_menu_layer;
 
 static int s_odometer_value;
-static float s_price_value;
-static float s_quantity_value;
-
-static int pow10(int order) {
-  // Returns an integer 10^order
-  int value = 1;
-  for (int i = 0; i < order; ++i) {
-    value *= 10;
-  }
-  return value;
-}
+static int s_price_value;
+static int s_quantity_value;
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 
@@ -72,16 +64,14 @@ static void menu_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuI
       break;
     case 1:
       // Price
-//      s_price_value = 10.979;
       snprintf(s_buffer, sizeof(s_buffer), (s_price_value > 0 ? "$%d.%03d/gal" : "$/gal"),
-           (int)s_price_value, (int)(s_price_value*pow10(3)) % pow10(3));
+           s_price_value / pow10(3), s_price_value % pow10(3));
       menu_cell_basic_draw(ctx, cell_layer, "Price", s_buffer, NULL);
       break;
     case 2:
       // Quantity
-//      s_quantity_value = 12.567;
       snprintf(s_buffer, sizeof(s_buffer), (s_quantity_value > 0 ? "%d.%03d gal" : "gal"),
-          (int)s_quantity_value, (int)(s_quantity_value*pow10(3)) % pow10(3));
+          s_quantity_value / pow10(3), s_quantity_value % pow10(3));
       menu_cell_basic_draw(ctx, cell_layer, "Quantity", s_buffer, NULL);
       break;
     case 3:
@@ -98,19 +88,19 @@ static void odometer_complete_callback(PIN *pin, void *context) {
 }
 
 static void price_complete_callback(PIN *pin, void *context) {
-  s_price_value = (float)pin_digits_to_int(pin) / pow10(3);
+  s_price_value = pin_digits_to_int(pin);
 
   APP_LOG(APP_LOG_LEVEL_INFO, "Price entry was was %d.%03d", 
-    (int)s_price_value, (int)(s_price_value*pow10(3)) % pow10(3));
+    s_price_value / pow10(3), s_price_value % pow10(3));
 
   pin_window_pop((PinWindow*)context, true);
 }
 
 static void quantity_complete_callback(PIN *pin, void *context) {
-  s_quantity_value = (float)pin_digits_to_int(pin) / pow10(3);
+  s_quantity_value = pin_digits_to_int(pin);
 
   APP_LOG(APP_LOG_LEVEL_INFO, "Quantity entry was was %d.%03d", 
-    (int)s_quantity_value, (int)(s_quantity_value*pow10(3)) % pow10(3));
+    s_quantity_value / pow10(3), s_quantity_value % pow10(3));
 
   pin_window_pop((PinWindow*)context, true);
 }
@@ -120,7 +110,7 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
   switch (cell_index->row) {
     // Create behavior for clicking each menu item
     case 0: {
-      PinWindow *pin_window = pin_window_create(5, 0, (PinWindowCallbacks) {
+      PinWindow *pin_window = pin_window_create(5, 0, s_odometer_value, (PinWindowCallbacks) {
           .pin_complete = odometer_complete_callback
         });
         pin_window_set_title(pin_window, "Odometer Reading");
@@ -128,7 +118,7 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
       }
       break;
     case 1: {
-      PinWindow *pin_window = pin_window_create(4, 3, (PinWindowCallbacks) {
+      PinWindow *pin_window = pin_window_create(4, 3, s_price_value, (PinWindowCallbacks) {
           .pin_complete = price_complete_callback
         });
         pin_window_set_title(pin_window, "Fuel Price");
@@ -136,7 +126,7 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
       }
       break;
     case 2: {
-      PinWindow *pin_window = pin_window_create(5, 3, (PinWindowCallbacks) {
+      PinWindow *pin_window = pin_window_create(5, 3, s_quantity_value, (PinWindowCallbacks) {
           .pin_complete = quantity_complete_callback
         });
         pin_window_set_title(pin_window, "Quantity");

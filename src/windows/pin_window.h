@@ -39,7 +39,7 @@ void pin_window_set_title(PinWindow*, char*);
  *  pin_window_callbacks: callbacks for communication
  *  returns: a pointer to a new PinWindow structure
  */
-PinWindow* pin_window_create(int num_digits, int num_decimals, PinWindowCallbacks pin_window_callbacks);
+PinWindow* pin_window_create(int num_digits, int num_decimals, int initial_value, PinWindowCallbacks pin_window_callbacks);
 
 /*
  * Destroys an existing PinWindow

@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "helper_functions.h"
 #include "pin_window.h"
 #include "../layers/selection_layer.h"
 
@@ -68,7 +69,7 @@ void pin_window_set_title(PinWindow *pin_window, char *title) {
   text_layer_set_text(pin_window->main_text, title);
 }
 
-PinWindow* pin_window_create(int num_digits, int num_decimals, PinWindowCallbacks callbacks) {
+PinWindow* pin_window_create(int num_digits, int num_decimals, int initial_value, PinWindowCallbacks callbacks) {
   PinWindow *pin_window = (PinWindow*)malloc(sizeof(PinWindow));
   if (pin_window) {
     pin_window->window = window_create();
@@ -83,7 +84,10 @@ PinWindow* pin_window_create(int num_digits, int num_decimals, PinWindowCallback
     if (pin_window->window) {
       pin_window->field_selection = 0;
       for(int i = 0; i < num_digits; i++) {
-        pin_window->pin->digits[i] = 0;
+        int digit = initial_value / pow10(num_digits - i - 1);
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Initial Value: %d, Digit: %d", initial_value, digit);
+        pin_window->pin->digits[i] = digit;
+        initial_value -= digit * pow10(num_digits - i - 1);
       }
       
       // Get window parameters
