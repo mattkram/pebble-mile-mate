@@ -1,7 +1,7 @@
 {
   "uuid": "dd816e56-8118-40e1-be13-c8a1e527fb18",
   "shortName": "mileage-recorder",
-  "longName": "mileage-recorder",
+  "longName": "Mileage Recorder",
   "companyName": "Kramerica Industries",
   "versionLabel": "0.1",
   "sdkVersion": "3",
@@ -10,7 +10,9 @@
     "watchface": false
   },
   "appKeys": {
-    "dummy": 0
+    "KEY_ODOMETER": 0,
+    "KEY_PRICE": 1,
+    "KEY_QUANTITY": 2
   },
   "resources": {
     "media": []
