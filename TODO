@@ -1,0 +1,2 @@
+- Create splash screen indicating successful upload after submitting entry.
+- After splash screen, all values should default back to zero.

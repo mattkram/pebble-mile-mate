@@ -1,6 +1,5 @@
 #include <pebble.h>
 #include "helper_functions.h"
-#include "windows/odometer_window.h"
 #include "windows/pin_window.h"
 
 #define NUM_MENU_ICONS 4
@@ -40,7 +39,9 @@ static void submit_http_request() {
 
   app_message_outbox_begin(&iter);
 
-  dict_write_uint8(iter, 0, 0);
+  dict_write_uint32(iter, KEY_ODOMETER, s_odometer_value);
+  dict_write_uint32(iter, KEY_PRICE, s_price_value);
+  dict_write_uint32(iter, KEY_QUANTITY, s_quantity_value);
 
   app_message_outbox_send();
 }
