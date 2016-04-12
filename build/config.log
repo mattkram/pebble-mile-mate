@@ -1,16 +1,16 @@
-# project  configured on Tue Mar 15 00:01:47 2016 by
-# waf 1.7.11 (abi 98, python 20706f0 on linux2)
-# using /home/mattkram/.pebble-sdk/SDKs/current/sdk-core/pebble/waf configure
+# project  configured on Tue Apr 12 18:04:48 2016 by
+# waf 1.7.11 (abi 98, python 20703f0 on darwin)
+# using /Users/mattkram/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/waf configure
 #
 ----------------------------------------
 Setting top to
-/home/mattkram/dev/pebble/mileage-recorder
+/Users/mattkram/dev/pebble/mileage-recorder
 ----------------------------------------
 Setting out to
-/home/mattkram/dev/pebble/mileage-recorder/build
+/Users/mattkram/dev/pebble/mileage-recorder/build
 ----------------------------------------
 Found Pebble SDK for chalk in:
-/home/mattkram/.pebble-sdk/SDKs/current/sdk-core/pebble/chalk
+/Users/mattkram/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/chalk
 ----------------------------------------
 Checking for program gcc,cc
 arm-none-eabi-gcc

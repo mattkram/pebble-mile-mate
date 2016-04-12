@@ -1,0 +1,5 @@
+*.swp
+.lock*
+build/
+**/build
+**/build/*
