@@ -1,5 +1,6 @@
 var myAPIKey = 'oYbJ2AVpaTZyqp__F1Z0RyG1LyBCiHYnowxk4OpzcOo';
 var eventName = 'mileage-recorder-data';
+var driverName = 'Matt';
 
 var xhrRequest = function (url, type, dictionary) {
   var xhr = new XMLHttpRequest();
@@ -18,10 +19,18 @@ function sendDataToMaker(inDict) {
   var url = 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + myAPIKey;
   
   var outDict = {
-    'value1': inDict['KEY_ODOMETER'],
-    'value2': inDict['KEY_PRICE'] / 1000.0,
-    'value3': inDict['KEY_QUANTITY'] / 1000.0
-  }
+    'value1': [(inDict['KEY_QUANTITY'] / 1000.0).toFixed(3),
+               (inDict['KEY_PRICE'] / 1000.0).toFixed(3),
+               inDict['KEY_ODOMETER'],
+               "", // Vendor
+               driverName,
+               "", // Location
+               "", // Comments / Notes
+               "" // Partial fill
+               ]
+  };
+
+  outDict['value1'] = outDict['value1'].join(';');
 
   xhrRequest(url, 'POST', outDict);
 }
