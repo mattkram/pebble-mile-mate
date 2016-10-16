@@ -15,6 +15,17 @@
     "KEY_QUANTITY": 2
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "bitmap",
+        "name": "SUCCESS",
+        "file": "images/tick.png"
+      },
+      {
+        "type": "bitmap",
+        "name": "WARNING",
+        "file": "images/warning.png"
+      }
+    ]
   }
 }

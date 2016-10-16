@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "helper_functions.h"
 #include "windows/pin_window.h"
+#include "windows/dialog_message_window.h"
 
 #define NUM_MENU_ICONS 4
 
@@ -13,9 +14,9 @@ enum {
 static Window *s_main_window;
 static MenuLayer *s_menu_layer;
 
-static int s_odometer_value;
-static int s_price_value;
-static int s_quantity_value;
+static int s_odometer_value = 0;
+static int s_price_value = 9;
+static int s_quantity_value = 0;
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 
@@ -27,10 +28,12 @@ static void inbox_dropped_callback(AppMessageResult reason, void *context) {
 
 static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+    dialogue_message_window_push("Error submitting data, please try again.", RESOURCE_ID_WARNING, GColorRed);
 }
 
 static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send success!");
+    dialogue_message_window_push("Success!", RESOURCE_ID_SUCCESS, GColorGreen);
 }
 
 static void submit_http_request() {
